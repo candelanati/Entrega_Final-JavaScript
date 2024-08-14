@@ -1,0 +1,19 @@
+body{
+    background-color: #080808;
+    color: #d9d9d9;
+
+    /* font */
+    font-family: "Poppins", sans-serif;
+    
+}
+/* .accent-color{
+    color: orange;
+} */
+
+main{
+    margin-inline: 260px;
+}
+
+/* .card{
+
+} */
