@@ -85,7 +85,18 @@ p{margin: 0px;}
     border-radius: 10px;
 }
 
-
+.card-carrito{
+    background-color: #d9d9d9;
+    color: #080808;
+    width: 350px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.tarjeta-carrito > h3 {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: medium;
+}
 
 #productos{
     display: flex;
