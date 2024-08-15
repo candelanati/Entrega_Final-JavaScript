@@ -99,8 +99,18 @@ const creaCarrito = (titulo, precio, cantidad) => {
 
 const actualizaCarrito =() =>{
     carrito.innerHTML = ""
+
+    const totalDOM = document.createElement("h3")
+    const total = Carrito.reduce((acumulador, element)=>{
+        return acumulador + element.cantidad * element.precio
+    },0)
+    console.log(total)
+
+    totalDOM.innerText = "$" + total
+
     Carrito.forEach(element =>{
         carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
+        carrito.appendChild(totalDOM)
     })
 }
 
