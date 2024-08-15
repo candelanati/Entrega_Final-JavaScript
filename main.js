@@ -26,20 +26,24 @@ const Productos = [
     }
 ]
 
-const creaCarrito = (titulo, precio) => {
+const creaCarrito = (titulo, precio, cantidad) => {
     const tarjeta = document.createElement("div")
     const tituloDOM = document.createElement("h3")
     const precioDOM = document.createElement("p")
+    const cantidadDOM = document.createElement("p")
 
     tarjeta.classList.add("tarjeta-carrito")
     tituloDOM.classList.add("titulo")
     precioDOM.classList.add("precio")
-
+    cantidadDOM.classList.add("cantidad")
+    
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
+    cantidadDOM.innerText = "x" + cantidad
 
     tarjeta.appendChild(tituloDOM)
     tarjeta.appendChild(precioDOM)
+    tarjeta.appendChild(cantidadDOM)
     
     return tarjeta
 }
@@ -47,7 +51,7 @@ const creaCarrito = (titulo, precio) => {
 const actualizaCarrito =() =>{
     carrito.innerHTML = ""
     Carrito.forEach(element =>{
-        carrito.appendChild(creaCarrito(element.titulo,element.precio))
+        carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
     })
 }
 
