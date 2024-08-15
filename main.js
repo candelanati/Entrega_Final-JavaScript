@@ -26,25 +26,74 @@ const Productos = [
     }
 ]
 
+const sumaCarrito = (titulo) => {
+
+    const producto = Carrito.find (element =>{
+        return element.titulo === titulo
+    })
+    producto.cantidad += 1
+    
+    actualizaCarrito()
+}
+
+const restaCarrito = (titulo) => {
+
+    const producto = Carrito.find (element =>{
+        return element.titulo === titulo
+    })
+    if(producto.cantidad<=1){
+        let arrayTitulos = Carrito.map(element =>{
+            return element.titulo
+        })
+        console.log(arrayTitulos)
+        let index = arrayTitulos.indexOf(titulo)
+        Carrito.splice(index,1)
+    }else{
+        producto.cantidad -= 1
+    }
+    
+    actualizaCarrito()
+}
+
 const creaCarrito = (titulo, precio, cantidad) => {
     const tarjeta = document.createElement("div")
     const tituloDOM = document.createElement("h3")
     const precioDOM = document.createElement("p")
+    const contieneCantidad = document.createElement("div")
     const cantidadDOM = document.createElement("p")
+    const botonMasDOM = document.createElement("button")
+    const botonMenosDOM = document.createElement("button")
 
     tarjeta.classList.add("tarjeta-carrito")
     tituloDOM.classList.add("titulo")
     precioDOM.classList.add("precio")
     cantidadDOM.classList.add("cantidad")
+    botonMasDOM.classList.add("boton-mas-menos")
+    botonMenosDOM.classList.add("boton-mas-menos")
+    contieneCantidad.classList.add("cantidades-productos")
     
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
     cantidadDOM.innerText = "x" + cantidad
 
+    botonMasDOM.innerText = "+"
+    botonMenosDOM.innerText = "-"
+    
+    botonMasDOM.addEventListener("click", ()=>{
+        sumaCarrito(titulo)
+    })
+    botonMenosDOM.addEventListener("click", ()=>{
+        restaCarrito(titulo)
+    })
+
+    contieneCantidad.appendChild(botonMenosDOM)
+    contieneCantidad.appendChild(cantidadDOM)
+    contieneCantidad.appendChild(botonMasDOM)
+
     tarjeta.appendChild(tituloDOM)
     tarjeta.appendChild(precioDOM)
-    tarjeta.appendChild(cantidadDOM)
-    
+    tarjeta.appendChild(contieneCantidad)
+
     return tarjeta
 }
 
