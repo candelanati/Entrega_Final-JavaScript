@@ -1,7 +1,7 @@
 const productos = document.getElementById("productos")
 const carrito = document.getElementById("carrito")
 
-const Carrito = []
+const Carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
 const Productos = [
     {
@@ -112,6 +112,8 @@ const actualizaCarrito =() =>{
         carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
         carrito.appendChild(totalDOM)
     })
+
+    localStorage.setItem("carrito", JSON.stringify(Carrito))
 }
 
 const agregaCarrito = (titulo, precio) => {
@@ -170,3 +172,6 @@ Productos.forEach(element => {
     productos.appendChild(productoDom)
 });
 
+document.addEventListener("DOMContentLoaded",  ()=>{
+    actualizaCarrito()
+})
