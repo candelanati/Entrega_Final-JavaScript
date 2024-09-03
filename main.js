@@ -6,29 +6,6 @@ const svgBorraCarrito = '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -96
 
 const Carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
-const Productos = [
-    {
-        titulo: "Across the spiderverse",
-        imagen: "./img/across_the_spiderverse.jpg",
-        precio: 9000
-    },
-    {
-        titulo:"Happier than ever",
-        imagen:"./img/happier_than_ever.jpg",
-        precio: 9500
-    },
-    {
-        titulo:"Hit me hard and soft",
-        imagen:"./img/hit_me_hard_and_soft.jpg",
-        precio: 11000
-    },
-    {
-        titulo:"Currents",
-        imagen:"./img/Currents.jpg",
-        precio: 10500
-    }
-]
-
 const sumaCarrito = (titulo) => {
 
     const producto = Carrito.find (element =>{
@@ -83,8 +60,6 @@ const creaCarrito = (titulo, precio, cantidad) => {
     const botonMenosDOM = document.createElement("button")
     const botonBorraItemDOM = document.createElement("button")
 
-
-    
     tarjeta.classList.add("tarjeta-carrito")
     tituloDOM.classList.add("titulo")
     precioDOM.classList.add("precio")
@@ -93,8 +68,7 @@ const creaCarrito = (titulo, precio, cantidad) => {
     botonMenosDOM.classList.add("boton-mas-menos")
     contieneCantidad.classList.add("cantidades-productos")
     botonBorraItemDOM.classList.add("boton-borrar")
-
-    
+ 
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
     cantidadDOM.innerText = "x" + cantidad
@@ -113,9 +87,6 @@ const creaCarrito = (titulo, precio, cantidad) => {
         borraItem(titulo)
     })
 
-
-
-
     contieneCantidad.appendChild(botonMenosDOM)
     contieneCantidad.appendChild(cantidadDOM)
     contieneCantidad.appendChild(botonMasDOM)
@@ -125,8 +96,6 @@ const creaCarrito = (titulo, precio, cantidad) => {
     tarjeta.appendChild(precioDOM)
     tarjeta.appendChild(contieneCantidad)
     
-
-
     return tarjeta
 }
 
@@ -216,14 +185,19 @@ const creaCards = (imagen, titulo, precio) => {
     return tarjeta
 }
 
+const llamaProductos = async ()=>{
+    let respuesta = await fetch ("./productos.json")
+    let data = await respuesta.json()
+
+    data.Productos.forEach(element => {
+        const productoDom = creaCards(element.imagen, element.titulo, element.precio)
+        productos.appendChild(productoDom)
+    });
+}
 
 
-Productos.forEach(element => {
-    const productoDom = creaCards(element.imagen, element.titulo,element.precio)
-
-    productos.appendChild(productoDom)
-});
 
 document.addEventListener("DOMContentLoaded",  ()=>{
-    actualizaCarrito()
+    actualizaCarrito();
+    llamaProductos();
 })
