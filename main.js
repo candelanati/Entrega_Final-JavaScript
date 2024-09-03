@@ -1,6 +1,9 @@
 const productos = document.getElementById("productos")
 const carrito = document.getElementById("carrito")
 
+const svgBorraItem = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#080808"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>'
+const svgBorraCarrito = '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="24px" fill="#080808"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>'
+
 const Carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
 const Productos = [
@@ -55,6 +58,21 @@ const restaCarrito = (titulo) => {
     actualizaCarrito()
 }
 
+const borraItem = (titulo) =>{
+    let arrayTitulos = Carrito.map(element =>{
+        return element.titulo
+    })
+    console.log(arrayTitulos)
+    let index = arrayTitulos.indexOf(titulo)
+    Carrito.splice(index,1)
+    actualizaCarrito()
+}
+
+const borraCarrito = ()=> {
+    Carrito.length = 0
+    actualizaCarrito()
+}
+
 const creaCarrito = (titulo, precio, cantidad) => {
     const tarjeta = document.createElement("div")
     const tituloDOM = document.createElement("h3")
@@ -63,7 +81,10 @@ const creaCarrito = (titulo, precio, cantidad) => {
     const cantidadDOM = document.createElement("p")
     const botonMasDOM = document.createElement("button")
     const botonMenosDOM = document.createElement("button")
+    const botonBorraItemDOM = document.createElement("button")
 
+
+    
     tarjeta.classList.add("tarjeta-carrito")
     tituloDOM.classList.add("titulo")
     precioDOM.classList.add("precio")
@@ -71,6 +92,8 @@ const creaCarrito = (titulo, precio, cantidad) => {
     botonMasDOM.classList.add("boton-mas-menos")
     botonMenosDOM.classList.add("boton-mas-menos")
     contieneCantidad.classList.add("cantidades-productos")
+    botonBorraItemDOM.classList.add("boton-borrar")
+
     
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
@@ -78,6 +101,7 @@ const creaCarrito = (titulo, precio, cantidad) => {
 
     botonMasDOM.innerText = "+"
     botonMenosDOM.innerText = "-"
+    botonBorraItemDOM.innerHTML = svgBorraItem
     
     botonMasDOM.addEventListener("click", ()=>{
         sumaCarrito(titulo)
@@ -85,14 +109,23 @@ const creaCarrito = (titulo, precio, cantidad) => {
     botonMenosDOM.addEventListener("click", ()=>{
         restaCarrito(titulo)
     })
+    botonBorraItemDOM.addEventListener("click", ()=>{
+        borraItem(titulo)
+    })
+
+
+
 
     contieneCantidad.appendChild(botonMenosDOM)
     contieneCantidad.appendChild(cantidadDOM)
     contieneCantidad.appendChild(botonMasDOM)
+    contieneCantidad.appendChild(botonBorraItemDOM)
 
     tarjeta.appendChild(tituloDOM)
     tarjeta.appendChild(precioDOM)
     tarjeta.appendChild(contieneCantidad)
+    
+
 
     return tarjeta
 }
@@ -108,9 +141,28 @@ const actualizaCarrito =() =>{
 
     totalDOM.innerText = "$" + total
 
+    const tarjetaBotonesComprarOBorrar = document.createElement("div")
+    const botonComprar = document.createElement ("button")
+    const botonBorraCarritoDOM = document.createElement ("button")
+
+    tarjetaBotonesComprarOBorrar.classList.add("botones-compra-borra")
+    botonComprar.classList.add("boton-compra")
+    botonBorraCarritoDOM.classList.add("boton-borra")
+    
+    botonComprar.innerText = "Realizar Compra"
+    botonBorraCarritoDOM.innerHTML = svgBorraCarrito
+    
+    tarjetaBotonesComprarOBorrar.appendChild(botonComprar)
+    tarjetaBotonesComprarOBorrar.appendChild(botonBorraCarritoDOM)
+
+    botonBorraCarritoDOM.addEventListener("click", ()=>{
+        borraCarrito()
+    })
+
     Carrito.forEach(element =>{
         carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
         carrito.appendChild(totalDOM)
+        carrito.appendChild(tarjetaBotonesComprarOBorrar)
     })
 
     localStorage.setItem("carrito", JSON.stringify(Carrito))
