@@ -52,7 +52,6 @@ p{margin: 0px;}
     gap: 16px;
 }
 .boton-compra{
-
     background-color: #e27a26;
     color: #080808;
     font-size: large;
@@ -72,6 +71,10 @@ p{margin: 0px;}
 }
 .boton-borra svg{
     width: 27px;
+}
+
+.hover-botones{
+    cursor: pointer;
 }
 
 .tarjeta{
@@ -94,9 +97,6 @@ p{margin: 0px;}
     margin-bottom: 5px;
     margin-top: 15px;
 }
-/* .tarjeta > p {
-    margin-top: 10px;
-} */
 .tarjeta > img{
     border: 15px solid;
     border-color: #d9d9d9;

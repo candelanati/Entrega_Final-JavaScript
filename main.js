@@ -64,10 +64,10 @@ const creaCarrito = (titulo, precio, cantidad) => {
     tituloDOM.classList.add("titulo")
     precioDOM.classList.add("precio")
     cantidadDOM.classList.add("cantidad")
-    botonMasDOM.classList.add("boton-mas-menos")
-    botonMenosDOM.classList.add("boton-mas-menos")
+    botonMasDOM.classList.add("boton-mas-menos","hover-botones")
+    botonMenosDOM.classList.add("boton-mas-menos","hover-botones")
     contieneCantidad.classList.add("cantidades-productos")
-    botonBorraItemDOM.classList.add("boton-borrar")
+    botonBorraItemDOM.classList.add("boton-borrar","hover-botones")
  
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
@@ -115,8 +115,8 @@ const actualizaCarrito =() =>{
     const botonBorraCarritoDOM = document.createElement ("button")
 
     tarjetaBotonesComprarOBorrar.classList.add("botones-compra-borra")
-    botonComprar.classList.add("boton-compra")
-    botonBorraCarritoDOM.classList.add("boton-borra")
+    botonComprar.classList.add("boton-compra","hover-botones")
+    botonBorraCarritoDOM.classList.add("boton-borra","hover-botones")
     
     botonComprar.innerText = "Realizar Compra"
     botonBorraCarritoDOM.innerHTML = svgBorraCarrito
@@ -163,6 +163,7 @@ const creaCards = (imagen, titulo, precio) => {
     const precioDOM = document.createElement("p")
     const botonDOM = document.createElement("button")
 
+    botonDOM.classList.add("hover-botones")
     tarjeta.classList.add("tarjeta")
     imagenDOM.classList.add("imagen")
     tituloDOM.classList.add("titulo")
@@ -194,8 +195,6 @@ const llamaProductos = async ()=>{
         productos.appendChild(productoDom)
     });
 }
-
-
 
 document.addEventListener("DOMContentLoaded",  ()=>{
     actualizaCarrito();
