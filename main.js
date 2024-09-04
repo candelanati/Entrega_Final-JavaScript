@@ -129,6 +129,7 @@ const actualizaCarrito =() =>{
             title: "¿Seguro de que quieres eliminar el carrito?",
             text: "¡No podrás revertir esta acción!",
             icon: "warning",
+            iconColor: "#e27a26",
             showCancelButton: true,
             confirmButtonColor: "#292929",
             cancelButtonColor: " #e27a26",
@@ -140,6 +141,7 @@ const actualizaCarrito =() =>{
                 title: "Eliminado!",
                 text: "Se ha eliminado el carrito.",
                 icon: "success",
+                iconColor: "#e27a26",
                 confirmButtonColor:"#e27a26"
               });
             }
@@ -203,6 +205,9 @@ const creaCards = (imagen, titulo, precio) => {
           });
           Toast.fire({
             icon: "success",
+            iconColor: "#e27a26",
+            background: "#d9d9d9",
+            width: "300px",
             title: "agregado al carrito"
           });
     })
