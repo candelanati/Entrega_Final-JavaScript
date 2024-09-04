@@ -1,4 +1,3 @@
-
 const productos = document.getElementById("productos")
 const carrito = document.getElementById("carrito")
 
@@ -138,8 +137,8 @@ const actualizaCarrito =() =>{
             if (result.isConfirmed) {
                 borraCarrito()
                 Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
+                title: "Eliminado!",
+                text: "Se ha eliminado el carrito.",
                 icon: "success",
                 confirmButtonColor:"#e27a26"
               });
@@ -195,6 +194,17 @@ const creaCards = (imagen, titulo, precio) => {
 
     botonDOM.addEventListener("click", () =>{
         agregaCarrito(titulo, precio)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+          Toast.fire({
+            icon: "success",
+            title: "agregado al carrito"
+          });
     })
 
     tarjeta.appendChild(imagenDOM)
