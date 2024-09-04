@@ -1,3 +1,4 @@
+
 const productos = document.getElementById("productos")
 const carrito = document.getElementById("carrito")
 
@@ -125,7 +126,25 @@ const actualizaCarrito =() =>{
     tarjetaBotonesComprarOBorrar.appendChild(botonBorraCarritoDOM)
 
     botonBorraCarritoDOM.addEventListener("click", ()=>{
-        borraCarrito()
+        Swal.fire({
+            title: "¿Seguro de que quieres eliminar el carrito?",
+            text: "¡No podrás revertir esta acción!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#292929",
+            cancelButtonColor: " #e27a26",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                borraCarrito()
+                Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+                confirmButtonColor:"#e27a26"
+              });
+            }
+          });
     })
 
     Carrito.forEach(element =>{

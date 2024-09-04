@@ -59,7 +59,7 @@ p{margin: 0px;}
     padding-inline: 40px;
     padding-block: 3px;
     border:2px;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .boton-borra{
@@ -72,6 +72,17 @@ p{margin: 0px;}
 .boton-borra svg{
     width: 27px;
 }
+
+/*.boton-swal{
+    
+}
+
+.boton-swal-accent{
+
+}
+
+*/
+
 
 .hover-botones{
     cursor: pointer;
