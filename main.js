@@ -50,6 +50,36 @@ const borraCarrito = ()=> {
     actualizaCarrito()
 }
 
+const continuarCompraForm = (total)=>{
+    Swal.fire({
+        title: 'Datos de compra',
+        html: `
+        <h4>Total a pagar $${total}</h4>
+            <input type="text" id="nombre" class="swal2-input" placeholder="nombre">
+            <input type="text" id="apellido" class="swal2-input" placeholder="apellido">
+            <input type="email" id="mail" class="swal2-input" placeholder="email">
+            <h4>método de pago</h4>
+            <select name="método de pago" id="metodo" class="swal2-select">
+                <option  hidden selected>Seleccione método</option>
+                <option id="efectivo">Efectivo</option>
+                <option id="debito">debito</option>
+                <option id="transferencia">transferencia</option>
+                <option id="mp">mercado pago</option>
+            </select>
+            `,
+            
+        
+        confirmButtonText:  'continuar',
+        customClass: {
+            confirmButton: 'boton-continuar-compra'
+        },
+        confirmButtonColor:"#e27a26",
+        focusConfirm: false,
+    });
+
+    
+}
+
 const creaCarrito = (titulo, precio, cantidad) => {
     const tarjeta = document.createElement("div")
     const tituloDOM = document.createElement("h3")
@@ -147,6 +177,21 @@ const actualizaCarrito =() =>{
             }
           });
     })
+
+    botonComprar.addEventListener("click", ()=>{
+        continuarCompraForm(total)
+        const botonContinuarCompra = document.getElementsByClassName("boton-continuar-compra")
+        console.log(botonContinuarCompra)
+        botonContinuarCompra[0].addEventListener("click", ()=>{
+            const metodoDePago = document.getElementById("metodo")
+            console.log(metodoDePago)
+            const metodoPago = metodoDePago.value
+            console.log(metodoPago)
+        return metodoPago
+        })
+    })
+
+
 
     Carrito.forEach(element =>{
         carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
