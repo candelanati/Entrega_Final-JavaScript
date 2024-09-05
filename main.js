@@ -6,6 +6,7 @@ const svgBorraCarrito = '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -96
 
 const Carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
+
 const sumaCarrito = (titulo) => {
 
     const producto = Carrito.find (element =>{
@@ -58,13 +59,14 @@ const continuarCompraForm = (total)=>{
             <input type="text" id="nombre" class="swal2-input" placeholder="nombre">
             <input type="text" id="apellido" class="swal2-input" placeholder="apellido">
             <input type="email" id="mail" class="swal2-input" placeholder="email">
-            <h4>método de pago</h4>
-            <select name="método de pago" id="metodo" class="swal2-select">
+            <h4>Método de pago</h4>
+            <select name="Método de pago" id="metodo" class="swal2-select">
                 <option  hidden selected>Seleccione método</option>
                 <option id="efectivo">Efectivo</option>
-                <option id="debito">debito</option>
-                <option id="transferencia">transferencia</option>
-                <option id="mp">mercado pago</option>
+                <option id="transferencia">Transferencia</option>
+                <option id="debito">Débito</option>
+                <option id="credito">Crédito</option>
+                <option id="mp">Mercado Pago</option>
             </select>
             `,
             
@@ -79,6 +81,8 @@ const continuarCompraForm = (total)=>{
 
     
 }
+
+
 
 const creaCarrito = (titulo, precio, cantidad) => {
     const tarjeta = document.createElement("div")
@@ -182,16 +186,55 @@ const actualizaCarrito =() =>{
         continuarCompraForm(total)
         const botonContinuarCompra = document.getElementsByClassName("boton-continuar-compra")
         console.log(botonContinuarCompra)
-        botonContinuarCompra[0].addEventListener("click", ()=>{
+        const totalFinal = botonContinuarCompra[0].addEventListener("click", ()=>{
             const metodoDePago = document.getElementById("metodo")
             console.log(metodoDePago)
             const metodoPago = metodoDePago.value
             console.log(metodoPago)
-        return metodoPago
+            const metodoTotal = pago(metodoPago,total)
+            const totalFinal = metodoTotal[1]
+            //oculta botones realizar compra / borrar carrito
+            const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+            console.log(tarjetaBotonesComprarOBorrar)
+            tarjetaBotonesComprarOBorrar[0].classList.add("ocultar-botones")
+            // return totalFinal
+            Swal.fire({
+                title: "Confirmar Compra",
+                html: `<p class="confirmar-compra-detalles">Total: $${total}</p>
+                        <p class="confirmar-compra-detalles">Total con descuento/recargo: ${totalFinal}</p>
+                        <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
+                `,
+                icon: "warning",
+                iconColor: "#e27a26",
+                showCancelButton: true,
+                confirmButtonColor: "#e27a26",
+                cancelButtonColor: "#080808",
+                confirmButtonText: "Confirmar compra",
+                // customClass: {
+                //     confirmButton: 'boton-compra',
+                //     cancelButton: 'boton-borra'
+                // }
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    title: "Listo!",
+                    text: "Gracias por tu compra.",
+                    icon: "success",
+                    iconColor: "#e27a26",
+                    confirmButtonColor: "#e27a26",
+                   
+                  });
+                   borraCarrito()
+                }else{
+                    //oculta botones realizar compra / borrar carrito
+                    const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+                    // console.log(tarjetaBotonesComprarOBorrar)
+                    tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
+                }
+              });
         })
+
     })
-
-
 
     Carrito.forEach(element =>{
         carrito.appendChild(creaCarrito(element.titulo,element.precio, element.cantidad))
@@ -219,6 +262,33 @@ const agregaCarrito = (titulo, precio) => {
         })
     }
     actualizaCarrito()
+}
+
+//metodos de pago
+function pago (metodo, total){
+    switch(metodo){
+        case "Crédito":    
+            total = total + (total * 0.15)
+            console.log("total con recargo x credito $"+total)
+            break
+        case "Transferencia":
+            total = total - (total * 0.15)
+            console.log("total con descuento x transferencia $"+total)
+            break
+        case "Efectivo":
+            total = total - (total * 0.20)
+            console.log("total con descuento x efectivo $"+total)
+            break
+        case "Mercado Pago":
+            // no cambia el precio
+            break
+        case "Débito":
+            // no cambia el precio
+            break
+        default:
+            return [false, 0]
+    }
+    return [true, total]
 }
 
 const creaCards = (imagen, titulo, precio) => {

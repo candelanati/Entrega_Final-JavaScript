@@ -27,6 +27,15 @@ h3{
 }
 p{margin: 0px;}
 
+.confirmar-compra-detalles{
+    
+    font-size: small;
+}
+.confirmar-compra-info{
+    margin-top:20px;
+    font-weight: 500;
+}
+
 .espacio-1{
     margin-bottom: 5px;
 }
@@ -43,6 +52,10 @@ p{margin: 0px;}
 .centrado{
     display:flex;
     justify-content:center;
+}
+
+.ocultar-botones{
+    display: none !important;
 }
 
 .botones-compra-borra{
