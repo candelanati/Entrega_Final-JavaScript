@@ -69,8 +69,6 @@ const continuarCompraForm = (total)=>{
                 <option id="mp">Mercado Pago</option>
             </select>
             `,
-            
-        
         confirmButtonText:  'continuar',
         customClass: {
             confirmButton: 'boton-continuar-compra'
@@ -78,8 +76,6 @@ const continuarCompraForm = (total)=>{
         confirmButtonColor:"#e27a26",
         focusConfirm: false,
     });
-
-    
 }
 
 
@@ -197,11 +193,17 @@ const actualizaCarrito =() =>{
             const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
             console.log(tarjetaBotonesComprarOBorrar)
             tarjetaBotonesComprarOBorrar[0].classList.add("ocultar-botones")
-            // return totalFinal
-            Swal.fire({
+            
+            //descuentoORecargo[0] si hay o no / descuentoORecargo[1] que es (descuento o recargo) / descuentoORecargo[2] valor
+            const descuentoORecargo = descuento(total,totalFinal)
+            console.log(descuentoORecargo)
+
+            if(descuentoORecargo[0]){
+                Swal.fire({
                 title: "Confirmar Compra",
-                html: `<p class="confirmar-compra-detalles">Total: $${total}</p>
-                        <p class="confirmar-compra-detalles">Total con descuento/recargo: ${totalFinal}</p>
+                html: `<p class="confirmar-compra-detalles">$${total}</p>
+                        <p class="confirmar-compra-detalles">${descuentoORecargo[1]} por medio de pago $${descuentoORecargo[2]}</p>
+                        <p class="confirmar-compra-detalles total-a-pagar-compra-detalles">Total a pagar: $${totalFinal}</p>
                         <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
                 `,
                 icon: "warning",
@@ -214,24 +216,60 @@ const actualizaCarrito =() =>{
                 //     confirmButton: 'boton-compra',
                 //     cancelButton: 'boton-borra'
                 // }
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  Swal.fire({
-                    title: "Listo!",
-                    text: "Gracias por tu compra.",
-                    icon: "success",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Listo!",
+                        text: "Gracias por tu compra.",
+                        icon: "success",
+                        iconColor: "#e27a26",
+                        confirmButtonColor: "#e27a26",
+                    
+                    });
+                        borraCarrito()
+                        }else{
+                            //oculta botones realizar compra / borrar carrito
+                            const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+                            // console.log(tarjetaBotonesComprarOBorrar)
+                            tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
+                        }
+                    });
+            }else{
+                Swal.fire({
+                    title: "Confirmar Compra",
+                    html: `
+                            <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
+                    `,
+                    icon: "warning",
                     iconColor: "#e27a26",
+                    showCancelButton: true,
                     confirmButtonColor: "#e27a26",
-                   
-                  });
-                   borraCarrito()
-                }else{
-                    //oculta botones realizar compra / borrar carrito
-                    const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
-                    // console.log(tarjetaBotonesComprarOBorrar)
-                    tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
-                }
-              });
+                    cancelButtonColor: "#080808",
+                    confirmButtonText: "Confirmar compra",
+                    // customClass: {
+                    //     confirmButton: 'boton-compra',
+                    //     cancelButton: 'boton-borra'
+                    // }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Listo!",
+                            text: "Gracias por tu compra.",
+                            icon: "success",
+                            iconColor: "#e27a26",
+                            confirmButtonColor: "#e27a26",
+                        
+                        });
+                            borraCarrito()
+                            }else{
+                                //oculta botones realizar compra / borrar carrito
+                                const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+                                // console.log(tarjetaBotonesComprarOBorrar)
+                                tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
+                            }
+                        });
+            }
+            
         })
 
     })
@@ -289,6 +327,23 @@ function pago (metodo, total){
             return [false, 0]
     }
     return [true, total]
+}
+
+const descuento = (total, totalFinal) =>{
+let hayDescuentoORecargo = true
+let descuentoORecargo = ""
+let valor = 0
+    if(total>totalFinal){
+         descuentoORecargo = "Descuento"
+        valor = total - totalFinal
+    }else if(total<totalFinal){
+        descuentoORecargo = "Recargo"
+        valor = totalFinal - total
+    }else{
+        hayDescuentoORecargo = false
+    }
+
+    return [hayDescuentoORecargo, descuentoORecargo, valor]
 }
 
 const creaCards = (imagen, titulo, precio) => {
