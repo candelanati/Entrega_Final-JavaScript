@@ -61,7 +61,7 @@ const continuarCompraForm = (total)=>{
             <input type="email" id="mail" class="swal2-input" placeholder="email">
             <h4>Método de pago</h4>
             <select name="Método de pago" id="metodo" class="swal2-select">
-                <option  hidden selected>Seleccione método</option>
+                <option  hidden selected >Seleccione método</option>
                 <option id="efectivo">Efectivo</option>
                 <option id="transferencia">Transferencia</option>
                 <option id="debito">Débito</option>
@@ -75,6 +75,7 @@ const continuarCompraForm = (total)=>{
         },
         confirmButtonColor:"#e27a26",
         focusConfirm: false,
+        
     });
 }
 

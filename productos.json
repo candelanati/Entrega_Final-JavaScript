@@ -1,19 +1,19 @@
 {
     "Productos": [
         {
-            "titulo": "Across the spiderverse",
-            "imagen": "./img/across_the_spiderverse.jpg",
-            "precio": 9000
-        },
-        {
-            "titulo": "Happier than ever",
-            "imagen": "./img/happier_than_ever.jpg",
-            "precio": 9500
-        },
-        {
-            "titulo": "Hit me hard and soft",
+            "titulo": "HIT ME HARD AND SOFT",
             "imagen": "./img/hit_me_hard_and_soft.jpg",
             "precio": 11000
+        },
+        {
+            "titulo": "OSCURO ÉXTASIS",
+            "imagen": "./img/oscuro_extasis.jpg",
+            "precio": 11000
+        },
+        {
+            "titulo": "Short n' Sweet",
+            "imagen": "./img/short_n_sweet.jpg",
+            "precio": 12500
         },
         {
             "titulo": "Currents",
@@ -31,14 +31,14 @@
             "precio": 9500
         },
         {
-            "titulo": "Hit me hard and soft",
-            "imagen": "./img/hit_me_hard_and_soft.jpg",
-            "precio": 11000
+            "titulo": "Graduation",
+            "imagen": "./img/graduation.jpg",
+            "precio": 14500
         },
         {
-            "titulo": "Currents",
-            "imagen": "./img/Currents.jpg",
-            "precio": 10500
+            "titulo": "To pimp a butterfly",
+            "imagen": "./img/to_pimp_a_butterfly.jpg",
+            "precio": 15000
         }
     ]
 }
