@@ -4,7 +4,7 @@ body{
 
     /* font */
     font-family: "Poppins", sans-serif;
-    
+
 }
 main{
     margin-inline: 260px;
@@ -21,7 +21,7 @@ h2{
     font-size: xx-large;
     font-weight: 700;
     margin: 0px;
-    
+
 }
 h3{
     margin: 0px;
@@ -72,16 +72,57 @@ p{margin: 0px;}
     margin-top: 20px;
     gap: 16px;
 }
+
 .boton-compra{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #e27a26;
     color: #080808;
     font-size: large;
     font-weight: 600;
     padding-inline: 40px;
-    padding-block: 3px;
+    padding-block: 20px;
     border:2px;
-    border-radius: 12px;
+    border-radius: 16px;
+    height: 20px;
     width: 100%;
+}
+.boton-compra:hover{
+    background-color: #080808 !important;
+    color: #e27a26 !important;
+    transition-delay: 10ms;
+    transition:all 20ms;
+}
+
+
+.div-boton-agrega-carrito{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.boton-agregar-carrito{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: medium;
+    font-weight: 600;
+    margin-top: 15px;
+    width: 40% !important;
+    height: 35px !important;
+    background-color: #e27a26 !important;
+    border-color: transparent;
+    border-radius: 100px !important;
+}
+.div-boton-agrega-carrito:hover{
+    .boton-agregar-carrito{
+        transform:  scale(105%);
+        box-shadow: 0px 0px 3px;
+        transition: all 20ms;
+        background-color: #080808 !important;
+        color: #e27a26 !important;
+    }
 }
 
 .boton-borra{
@@ -89,14 +130,23 @@ p{margin: 0px;}
     padding-inline: 12px;
     padding-block: 5px;
     border:2px;
-    border-radius: 10px;
+    border-radius: 16px;
 }
 .boton-borra svg{
     width: 27px;
 }
+.boton-borra:hover{
+    background-color: #080808 !important;
+    color: #e27a26 !important;
+    transition:all 20ms;
+    svg{
+        fill: #d9d9d9;
+    }
+}
+
 
 /*.boton-swal{
-    
+
 }
 
 .boton-swal-accent{
@@ -123,7 +173,7 @@ p{margin: 0px;}
     align-items: start;
     justify-content: center;
     margin-bottom: 60px;
-    
+
 }
 .tarjeta > h3{
     font-size: x-large;
@@ -135,7 +185,7 @@ p{margin: 0px;}
     border: 15px solid;
     border-color: #d9d9d9;
     border-radius: 2px;
-    
+
     width: 90%;
 }
 .tarjeta > button{
@@ -167,13 +217,28 @@ p{margin: 0px;}
     margin-inline: 4px;
     border-radius: 5px;
 }
+.boton-mas-menos:hover{
+    background-color: #080808;
+    color: #e7e7e7;
+    transition:all 20ms;
+}
 
 .boton-borrar{
+    display: flex;
+    align-items: center;
     background-color: #e7e7e7;
     padding-inline: 2px;
     padding-block: 1px;
     border:2px;
     border-radius: 5px;
+}
+.boton-borrar:hover{
+    background-color: #080808;
+
+    transition:all 20ms;
+    svg{
+        fill:#d9d9d9;
+    }
 }
 .boton-borrar svg{
     height: 18px;

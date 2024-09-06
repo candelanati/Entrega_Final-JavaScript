@@ -2,7 +2,8 @@ const productos = document.getElementById("productos")
 const carrito = document.getElementById("carrito")
 
 const svgBorraItem = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" fill="#080808"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>'
-const svgBorraCarrito = '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="24px" fill="#080808"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>'
+const svgBorraCarrito = '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="24px" ><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>'
+const svgAgregarItem = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-basket"><path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="M4.5 15.5h15"/><path d="m5 11 4-7"/><path d="m9 11 1 9"/></svg>'
 
 const Carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
@@ -352,9 +353,11 @@ const creaCards = (imagen, titulo, precio) => {
     const imagenDOM = document.createElement("img")
     const tituloDOM = document.createElement("h3")
     const precioDOM = document.createElement("p")
+    const divBotonDom = document.createElement("div")
     const botonDOM = document.createElement("button")
 
-    botonDOM.classList.add("hover-botones")
+    divBotonDom.classList.add("div-boton-agrega-carrito")
+    botonDOM.classList.add("hover-botones","boton-agregar-carrito")
     tarjeta.classList.add("tarjeta")
     imagenDOM.classList.add("imagen")
     tituloDOM.classList.add("titulo")
@@ -362,7 +365,7 @@ const creaCards = (imagen, titulo, precio) => {
 
     tituloDOM.innerText = titulo
     precioDOM.innerText = "$" + precio
-    botonDOM.innerText = "comprar"
+    botonDOM.innerHTML = svgAgregarItem+"agregar"
     imagenDOM.src = imagen
 
     botonDOM.addEventListener("click", () =>{
@@ -386,7 +389,9 @@ const creaCards = (imagen, titulo, precio) => {
     tarjeta.appendChild(imagenDOM)
     tarjeta.appendChild(tituloDOM)
     tarjeta.appendChild(precioDOM)
-    tarjeta.appendChild(botonDOM)
+    tarjeta.appendChild(divBotonDom)
+
+    divBotonDom.appendChild(botonDOM)
     
     return tarjeta
 }
