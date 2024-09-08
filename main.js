@@ -52,7 +52,95 @@ const borraCarrito = ()=> {
     actualizaCarrito()
 }
 
+const continuarCompraFormAceptado = (total)=>{
+        const metodoDePago = document.getElementById("metodo")
+        console.log("BOTON CONTINUAR COMPRA: ")
+        console.log(metodoDePago)
+        console.log("-------------")
+        const metodoPago = metodoDePago.value
+        console.log("METODO DE PAGO: ")
+        console.log(metodoPago)
+        console.log("-------------")
+        const metodoTotal = pago(metodoPago,total)
+        const totalFinal = metodoTotal[1]
+        //oculta botones realizar compra / borrar carrito
+        const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+        console.log("BOTONES REALIZAR COMPRA / BORRAR CARRITO: ")
+        console.log(tarjetaBotonesComprarOBorrar)
+        console.log("-------------")
+        tarjetaBotonesComprarOBorrar[0].classList.add("ocultar-botones")
+        
+        //descuentoORecargo[0] si hay o no / descuentoORecargo[1] que es (descuento o recargo) / descuentoORecargo[2] valor
+        const descuentoORecargo = descuento(total,totalFinal)
+        console.log("- descuentoORecargo[0] si hay o no\n- descuentoORecargo[1] que es (descuento o recargo)\n- descuentoORecargo[2] valor\nDESCUENTO O RECARGO:")
+        console.log(descuentoORecargo)
+        console.log("-------------")
+
+        if(descuentoORecargo[0]){
+            Swal.fire({
+            title: "Confirmar Compra",
+            html: `<p class="confirmar-compra-detalles">$${total}</p>
+                    <p class="confirmar-compra-detalles">${descuentoORecargo[1]} por medio de pago $${descuentoORecargo[2]}</p>
+                    <p class="confirmar-compra-detalles total-a-pagar-compra-detalles">Total a pagar: $${totalFinal}</p>
+                    <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
+            `,
+            icon: "warning",
+            iconColor: "#e27a26",
+            showCancelButton: true,
+            confirmButtonColor: "#e27a26",
+            cancelButtonColor: "#080808",
+            confirmButtonText: "Confirmar compra",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Listo!",
+                    text: "Gracias por tu compra.",
+                    icon: "success",
+                    iconColor: "#e27a26",
+                    confirmButtonColor: "#e27a26",
+                });
+                    borraCarrito()
+                    }else{
+                        //oculta botones realizar compra / borrar carrito
+                        const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+                        tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
+                    }
+                });
+        }else{
+            Swal.fire({
+                title: "Confirmar Compra",
+                html: `
+                        <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
+                `,
+                icon: "warning",
+                iconColor: "#e27a26",
+                showCancelButton: true,
+                confirmButtonColor: "#e27a26",
+                cancelButtonColor: "#080808",
+                confirmButtonText: "Confirmar compra",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Listo!",
+                        text: "Gracias por tu compra.",
+                        icon: "success",
+                        iconColor: "#e27a26",
+                        confirmButtonColor: "#e27a26",
+                    
+                    });
+                        borraCarrito()
+                        }else{
+                            //oculta botones realizar compra / borrar carrito
+                            const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
+                            tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
+                        }
+                    });
+        }
+
+}
+
 const continuarCompraForm = (total)=>{
+    let hayMetodo = false
     Swal.fire({
         title: 'Datos de compra',
         html: `
@@ -62,7 +150,7 @@ const continuarCompraForm = (total)=>{
             <input type="email" id="mail" class="swal2-input" placeholder="email">
             <h4>Método de pago</h4>
             <select name="Método de pago" id="metodo" class="swal2-select">
-                <option  hidden selected >Seleccione método</option>
+                <option  hidden  >Seleccione método</option>
                 <option id="efectivo">Efectivo</option>
                 <option id="transferencia">Transferencia</option>
                 <option id="debito">Débito</option>
@@ -76,8 +164,16 @@ const continuarCompraForm = (total)=>{
         },
         confirmButtonColor:"#e27a26",
         focusConfirm: false,
-        
+        preConfirm: () => {
+            if (document.getElementById('metodo').value!=="Seleccione método" && document.getElementById('nombre').value && document.getElementById('apellido').value && document.getElementById('mail').value) {
+                continuarCompraFormAceptado(total)
+            } else {
+              Swal.showValidationMessage('Completa todos los campos')   
+            }
+          }
+
     });
+    return hayMetodo
 }
 
 
@@ -138,7 +234,9 @@ const actualizaCarrito =() =>{
     const total = Carrito.reduce((acumulador, element)=>{
         return acumulador + element.cantidad * element.precio
     },0)
+    console.log("TOTAL: ")
     console.log(total)
+    console.log("-------------")
 
     totalDOM.innerText = "$" + total
 
@@ -181,99 +279,9 @@ const actualizaCarrito =() =>{
     })
 
     botonComprar.addEventListener("click", ()=>{
-        continuarCompraForm(total)
-        const botonContinuarCompra = document.getElementsByClassName("boton-continuar-compra")
-        console.log(botonContinuarCompra)
-        const totalFinal = botonContinuarCompra[0].addEventListener("click", ()=>{
-            const metodoDePago = document.getElementById("metodo")
-            console.log(metodoDePago)
-            const metodoPago = metodoDePago.value
-            console.log(metodoPago)
-            const metodoTotal = pago(metodoPago,total)
-            const totalFinal = metodoTotal[1]
-            //oculta botones realizar compra / borrar carrito
-            const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
-            console.log(tarjetaBotonesComprarOBorrar)
-            tarjetaBotonesComprarOBorrar[0].classList.add("ocultar-botones")
-            
-            //descuentoORecargo[0] si hay o no / descuentoORecargo[1] que es (descuento o recargo) / descuentoORecargo[2] valor
-            const descuentoORecargo = descuento(total,totalFinal)
-            console.log(descuentoORecargo)
-
-            if(descuentoORecargo[0]){
-                Swal.fire({
-                title: "Confirmar Compra",
-                html: `<p class="confirmar-compra-detalles">$${total}</p>
-                        <p class="confirmar-compra-detalles">${descuentoORecargo[1]} por medio de pago $${descuentoORecargo[2]}</p>
-                        <p class="confirmar-compra-detalles total-a-pagar-compra-detalles">Total a pagar: $${totalFinal}</p>
-                        <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
-                `,
-                icon: "warning",
-                iconColor: "#e27a26",
-                showCancelButton: true,
-                confirmButtonColor: "#e27a26",
-                cancelButtonColor: "#080808",
-                confirmButtonText: "Confirmar compra",
-                // customClass: {
-                //     confirmButton: 'boton-compra',
-                //     cancelButton: 'boton-borra'
-                // }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Listo!",
-                        text: "Gracias por tu compra.",
-                        icon: "success",
-                        iconColor: "#e27a26",
-                        confirmButtonColor: "#e27a26",
-                    
-                    });
-                        borraCarrito()
-                        }else{
-                            //oculta botones realizar compra / borrar carrito
-                            const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
-                            // console.log(tarjetaBotonesComprarOBorrar)
-                            tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
-                        }
-                    });
-            }else{
-                Swal.fire({
-                    title: "Confirmar Compra",
-                    html: `
-                            <p class="confirmar-compra-info">Usted se encuentra por abonar $${totalFinal} con el medio de pago: ${metodoPago}</p>
-                    `,
-                    icon: "warning",
-                    iconColor: "#e27a26",
-                    showCancelButton: true,
-                    confirmButtonColor: "#e27a26",
-                    cancelButtonColor: "#080808",
-                    confirmButtonText: "Confirmar compra",
-                    // customClass: {
-                    //     confirmButton: 'boton-compra',
-                    //     cancelButton: 'boton-borra'
-                    // }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Listo!",
-                            text: "Gracias por tu compra.",
-                            icon: "success",
-                            iconColor: "#e27a26",
-                            confirmButtonColor: "#e27a26",
-                        
-                        });
-                            borraCarrito()
-                            }else{
-                                //oculta botones realizar compra / borrar carrito
-                                const tarjetaBotonesComprarOBorrar = document.getElementsByClassName("botones-compra-borra")
-                                // console.log(tarjetaBotonesComprarOBorrar)
-                                tarjetaBotonesComprarOBorrar[0].classList.remove("ocultar-botones")
-                            }
-                        });
-            }
-            
-        })
-
+        const hayMetodo = continuarCompraForm(total)
+        
+        
     })
 
     Carrito.forEach(element =>{
@@ -309,15 +317,15 @@ function pago (metodo, total){
     switch(metodo){
         case "Crédito":    
             total = total + (total * 0.15)
-            console.log("total con recargo x credito $"+total)
+            console.log("total con recargo x credito: $"+total)
             break
         case "Transferencia":
             total = total - (total * 0.15)
-            console.log("total con descuento x transferencia $"+total)
+            console.log("total con descuento x transferencia: $"+total)
             break
         case "Efectivo":
             total = total - (total * 0.20)
-            console.log("total con descuento x efectivo $"+total)
+            console.log("total con descuento x efectivo: $"+total)
             break
         case "Mercado Pago":
             // no cambia el precio
